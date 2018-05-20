@@ -50,9 +50,9 @@ workflows:
   deployment:
     jobs:
       - build_and_test
-      - deploy
+      - deploy:
           requires:
             - build_and_test
           filters:
             branches:
-              /release-.*/
+              only: /release-.*/
