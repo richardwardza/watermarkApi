@@ -51,3 +51,6 @@ workflows:
     jobs:
       - build_and_test
       - deploy
+        filters:
+          branches:
+            /release-.*/
