@@ -51,6 +51,8 @@ workflows:
     jobs:
       - build_and_test
       - deploy
-        filters:
-          branches:
-            /release-.*/
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              /release-.*/
