@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Build Service
           command: |
-            ssh $SSH_USER@$SSH_HOST "cd /var/www-sites/watermark.gofwd.co.za/watermarker/api/ && npm run build"
+            ssh $SSH_USER@$SSH_HOST "cd /var/www-sites/watermark.gofwd.co.za/watermarker/api/ && npm install && npm run build"
       - run:
           name: Restart Service
           command: |
