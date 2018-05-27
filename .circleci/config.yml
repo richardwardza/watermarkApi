@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  build_and_test:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.11.1
@@ -36,5 +36,35 @@ jobs:
       # run tests!
       - run: npm run test
 
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Update server branch
+          command: |
+            ssh $SSH_USER@$SSH_HOST "cd /var/www-sites/watermark.gofwd.co.za/watermarker/api/ && git fetch -a --prune && git checkout $CIRCLE_BRANCH && git pull origin $CIRCLE_BRANCH "
+      - run:
+          name: Check Env
+          command: |
+            ssh $SSH_USER@$SSH_HOST "env && nvm --version && npm -v && npm -v"
+      - run:
+          name: Build Service
+          command: |
+            ssh $SSH_USER@$SSH_HOST "cd /var/www-sites/watermark.gofwd.co.za/watermarker/api/ && npm install && npm run build"
+      - run:
+          name: Restart Service
+          command: |
+            ssh $SSH_USER@$SSH_HOST "pm2 restart watermark"
 
-
+workflows:
+  version: 2
+  deployment:
+    jobs:
+      - build_and_test
+      - deploy:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: /release-.*/

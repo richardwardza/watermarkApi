@@ -1,6 +1,6 @@
 {
   "name": "watermark-api",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "watermark API",
   "main": "app.js",
   "scripts": {
