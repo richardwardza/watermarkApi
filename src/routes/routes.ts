@@ -1,4 +1,5 @@
 import { watermark } from "../controllers/watermark"
+import { serviceError } from '../libs';
 
 interface IConf {
 	app: any,
@@ -19,8 +20,11 @@ export function initRoutes({ app, upload, db, log }: IConf) {
 		}
 		const result = await watermark(req.body, log);
 
+		if (result.code !== 200) {
+			return res.status(result.code).send(serviceError(result.response.error));
+		}
+
 		res.attachment("watermark.pdf");
-		// res.set('Content-disposition', 'attachment; filename=watermarked.pdf');
 		res.set('Content-Type', 'application/pdf');
 
 		res.send(result.response.toBuffer())

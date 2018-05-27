@@ -17,7 +17,7 @@ export function watermark(watermarkRequest: IWatermark, log) {
 		return serviceResponse(200, pdf);
 	} catch (e) {
 		log.error(e);
-		return serviceResponse(500, "Error generating watermark");
+		return serviceResponse(500, serviceError("Error generating watermark"));
 	}
 
 }
