@@ -7,7 +7,10 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
     "build:watch": "npm run clean && tsc -w",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "test": "jest --no-cache --config=spec/jest.config.json",
+    "test:debug": "node --inspect-brk ./node_modules/.bin/jest --runInBand --watch --no-cache --config=spec/jest.config.json",
+    "test:watch": "jest --no-cache --watch --config=spec/jest.config.json "
   },
   "keywords": [
     "watermark",
@@ -29,6 +32,7 @@
     "winston": "^2.4.2"
   },
   "devDependencies": {
+    "jest": "^23.0.0",
     "tslib": "^1.9.0",
     "typescript": "^2.8.3"
   }
