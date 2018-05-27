@@ -55,7 +55,7 @@ jobs:
       - run:
           name: Restart Service
           command: |
-            ssh $SSH_USER@$SSH_HOST "cd /var/www-sites/watermark.gofwd.co.za/watermarker/api/ && pm2 restart all"
+            ssh $SSH_USER@$SSH_HOST "pm2 restart watermark"
 
 workflows:
   version: 2
