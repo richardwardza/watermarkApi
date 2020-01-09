@@ -43,10 +43,10 @@ curl -X POST \
   https://api.watermark.gofwd.co.za/watermark \
   -H 'cache-control: no-cache' \
   -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
-  -F file=@yourPDF.pdf \
+  -F file=@sample/sample.pdf \
   -F 'line1=This is a ' \
   -F line2=Watermark
-  ```
+```
 
 # Response
 
@@ -66,6 +66,7 @@ The API server requires the following environment variables to be set:
 |Name|Default|Description|
 |----|--------|-----------|
 | WM_API_PORT | 3001 | The port to run the API service on |
+| MAX_FILESIZE | 50mb | The maximum filesize to accept |
 
 
 # TODO
