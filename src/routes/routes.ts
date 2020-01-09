@@ -2,34 +2,38 @@ import { watermark } from "../controllers/watermark"
 import { serviceError } from '../libs';
 
 interface IConf {
-	app: any,
-	upload: any,
-	db: any,
-	log: any,
+  app: any,
+  upload: any,
+  db: any,
+  log: any,
 };
 
 export function initRoutes({ app, upload, db, log }: IConf) {
 
-	app.post("/watermark", upload.single('file'), async (req, res) => {
-		log.info("Received Watermark request");
-		log.info("Body - ", req.body);
-		log.info("File - ", req.file);
-		let documentObject = req.body;
-		if (req.file) {
-			documentObject.file = req.file;
-		}
-		const result = await watermark(req.body, log);
+  app.post("/watermark", upload.single('file'), async (req, res) => {
+    log.info("Received Watermark request");
+    log.info("Body - ", req.body);
+    log.info("File - ", req.file);
 
-		if (result.code !== 200) {
-			return res.status(result.code).send(serviceError(result.response.error));
-		}
+    if (req.file) {
+      req.body.file = req.file;
+    }
+    else {
+      log.warn("file not provided");
+      return res.status(400).send(serviceError("file is required"))
+    }
+    const result = await watermark(req.body, log);
 
-		res.attachment("watermark.pdf");
-		res.set('Content-Type', 'application/pdf');
+    if (result.code !== 200) {
+      return res.status(result.code).send(serviceError(result.response.error));
+    }
 
-		res.send(result.response.toBuffer())
+    res.attachment("watermark.pdf");
+    res.set('Content-Type', 'application/pdf');
 
-		res.end();
-	});
+    res.send(result.response.toBuffer())
+
+    res.end();
+  });
 
 }

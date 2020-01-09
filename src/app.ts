@@ -7,14 +7,19 @@ import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import * as multer from "multer";
 import * as path from "path";
+import { existsSync, mkdirSync } from "fs";
 
 import { configureLogger, configureDB } from "./libs";
 import { initRoutes } from "./routes/routes";
-import { API_PORT, MAX_FILESIZE } from "./config";
+import { API_PORT, MAX_FILESIZE, TMP_DIRECTORY } from "./config";
+
+if (!existsSync(TMP_DIRECTORY)) {
+  mkdirSync(TMP_DIRECTORY);
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/tmp/watermark-uploads')
+    cb(null, TMP_DIRECTORY)
   },
 });
 
@@ -24,11 +29,11 @@ const upload = multer({
     fileSize: 26214400
   },
   fileFilter: function (req, file, cb) {
-    
+
     var filetypes = /pdf/;
     var mimetype = filetypes.test(file.mimetype);
     var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    
+
     if (mimetype && extname) {
       return cb(null, true);
     }
@@ -55,7 +60,7 @@ app.all("*", (req, res, next) => {
 app.use(bodyParser.json({ limit: MAX_FILESIZE }));
 app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({
-  limit: MAX_FILESIZE, 
+  limit: MAX_FILESIZE,
   parameterLimit: 100000,
   extended: true
 }));
