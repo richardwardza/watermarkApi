@@ -1,7 +1,7 @@
-var winston = require('winston');
+const winston = require('winston');
 
 export function configureLogger() {
-	const log = new winston.Logger({
+	const log = winston.createLogger({
 		transports: [
 			new (winston.transports.Console)({
 				colorize: true,
