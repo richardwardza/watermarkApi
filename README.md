@@ -2,12 +2,12 @@
 
 Watermark PDF's
 
-#Credits
+## Credits
 
 Thanks goes to https://github.com/AndreMocke91 for watermark orientation and spacing calculation
 
 
-## POST /watermark
+# POST /watermark
 
 This method accepts 2 lines of text to use for the watermark text and the PDF file to watermark.
 
