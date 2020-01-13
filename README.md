@@ -6,9 +6,6 @@ Watermark PDF's
 
 Thanks goes to https://github.com/AndreMocke91 for watermark orientation and spacing calculation
 
-# API
-
-The API for the service is currently at `https://api.watermark.gofwd.co.za/`
 
 ## POST /watermark
 
